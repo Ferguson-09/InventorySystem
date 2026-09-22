@@ -20,10 +20,10 @@
         private readonly Dictionary<string, Product> _inventory = new();
 
         public void AddProduct(Product product)
-        {
+        {  
             if (product == null || string.IsNullOrWhiteSpace(product.Id))
                 throw new ArgumentException("Invalid product details.");
-
+                
             _inventory[product.Id] = product;
         }
 
