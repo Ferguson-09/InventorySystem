@@ -70,4 +70,26 @@ public class InventoryOrderServiceTests
         Assert.True(result.IsSuccess);
         Assert.Equal(400m, result.TotalCost);
     }
+
+    // Failing tests
+    [Fact]
+    public void ProcessOrder_ZeroQuantity_ReturnsFailure()
+    {
+        // Arrange
+        var service = new InventoryOrderService();
+
+        service.AddProduct(new Product
+        {
+            Id = "P100",
+            Name = "Keyboard",
+            UnitPrice = 100m,
+            StockQuantity = 20
+        });
+
+        // Act
+        var result = service.ProcessOrder("P100", 0, 0m);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+    }
 }
