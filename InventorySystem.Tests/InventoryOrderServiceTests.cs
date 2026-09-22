@@ -5,7 +5,7 @@ namespace InventorySystem.Tests;
 public class InventoryOrderServiceTests
 {
     [Fact]
-    public void ProcessOrder_NormalOrder_ReturnsSuccessfulResult()
+    public void ProcessOrder_NormalOrder()
     {
         // Arrange
         var service = new InventoryOrderService();
@@ -28,7 +28,7 @@ public class InventoryOrderServiceTests
     }
 
     [Fact]
-    public void ProcessOrder_ElevenItems_AppliesTenPercentDiscount()
+    public void ProcessOrder_TenPercentDiscount()
     {
         // Arrange
         var service = new InventoryOrderService();
@@ -50,7 +50,7 @@ public class InventoryOrderServiceTests
     }
 
     [Fact]
-    public void ProcessOrder_FiftyItems_AppliesTwentyPercentDiscount()
+    public void ProcessOrder_TwentyPercentDiscount()
     {
         // Arrange
         var service = new InventoryOrderService();
@@ -73,7 +73,7 @@ public class InventoryOrderServiceTests
 
     // Failing tests
     [Fact]
-    public void ProcessOrder_ZeroQuantity_ReturnsFailure()
+    public void ProcessOrder_ZeroQuantity()
     {
         // Arrange
         var service = new InventoryOrderService();
@@ -93,7 +93,7 @@ public class InventoryOrderServiceTests
         Assert.False(result.IsSuccess);
     }
     [Fact]
-    public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount()
+    public void ProcessOrder_ExactlyTenItems_TenPercentDiscount()
     {
         // Arrange
         var service = new InventoryOrderService();
@@ -112,5 +112,26 @@ public class InventoryOrderServiceTests
         // Assert
         Assert.True(result.IsSuccess);
         Assert.Equal(90m, result.TotalCost);
+    }
+    [Fact]
+    public void ProcessOrder_ExactlyFiftyItems_TwentyPercentDiscount()
+    {
+        // Arrange
+        var service = new InventoryOrderService();
+
+        service.AddProduct(new Product
+        {
+            Id = "P100",
+            Name = "Keyboard",
+            UnitPrice = 10m,
+            StockQuantity = 50
+        });
+
+        // Act
+        var result = service.ProcessOrder("P100", 50, 0m);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(400m, result.TotalCost);
     }
 }
