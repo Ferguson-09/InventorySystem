@@ -134,4 +134,14 @@ public class InventoryOrderServiceTests
         Assert.True(result.IsSuccess);
         Assert.Equal(400m, result.TotalCost);
     }
+    [Fact]
+    public void AddProduct_NullProduct_ArgumentException()
+    {
+        // Arrange
+        var service = new InventoryOrderService();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() =>
+            service.AddProduct(null!));
+    }
 }
