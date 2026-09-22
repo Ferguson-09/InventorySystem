@@ -92,4 +92,25 @@ public class InventoryOrderServiceTests
         // Assert
         Assert.False(result.IsSuccess);
     }
+    [Fact]
+    public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount()
+    {
+        // Arrange
+        var service = new InventoryOrderService();
+
+        service.AddProduct(new Product
+        {
+            Id = "P100",
+            Name = "Keyboard",
+            UnitPrice = 10m,
+            StockQuantity = 20
+        });
+
+        // Act
+        var result = service.ProcessOrder("P100", 10, 0m);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(90m, result.TotalCost);
+    }
 }
